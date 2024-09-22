@@ -79,12 +79,13 @@ extern struct Struct_CAN_Manage_Object CAN2_Manage_Object;
 //用于向电调发送控制指令控制电调的电流输出
 extern uint8_t CAN1_0x1ff_Tx_Data[];
 extern uint8_t CAN1_0x200_Tx_Data[];
+extern uint8_t  CAN1_0x2ff_Tx_Data[];
 
 extern void can_fifo_callback( struct Struct_CAN_Rx_Buffer *Rx_Buffer);
 
 extern void buffer_to_motor_state(uint8_t id,struct Struct_CAN_Rx_Buffer *Rx_Buffer);
 
-
+extern void TIM_CAN_PeriodElapsedCallback();
 /* Exported function declarations ---------------------------------------------*/
 
 extern void CAN_Init(CAN_HandleTypeDef *hcan, CAN_Call_Back Callback_Function);

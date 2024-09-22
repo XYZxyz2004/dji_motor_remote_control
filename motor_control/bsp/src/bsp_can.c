@@ -24,11 +24,12 @@ struct Struct_CAN_Manage_Object CAN1_Manage_Object = {0};
 struct Struct_CAN_Manage_Object CAN2_Manage_Object = {0};
 
 // CAN通信发送缓冲区
+//控制两个摩擦轮、1个云台偏航，1个拨盘2006电机
 uint8_t CAN1_0x1ff_Tx_Data[8]= {0x00, 0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+//控制底盘四个3508电机
 uint8_t  CAN1_0x200_Tx_Data[8] = {0x00, 0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-
-
+//控制云台俯仰6020电机
+uint8_t  CAN1_0x2ff_Tx_Data[8] = {0x00, 0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 
 
@@ -55,9 +56,9 @@ void CAN_Init(CAN_HandleTypeDef *hcan, CAN_Call_Back Callback_Function)
 			
 			//对ID为0x201的ID进行过滤
 		//CAN_Filter_Mask_Config(hcan, CAN_FILTER(0) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x201, 0xfff);
-		CAN_Filter_Mask_Config(hcan, CAN_FILTER(1) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x000, 0x000);
+	//	CAN_Filter_Mask_Config(hcan, CAN_FILTER(1) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x000, 0x000);
 		//对ID处于0x200-0x20f的ID进行过滤
-		//CAN_Filter_Mask_Config(hcan, CAN_FILTER(0) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x200, 0xff0);
+		CAN_Filter_Mask_Config(hcan, CAN_FILTER(0) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x000, 0x000);
 		//CAN_Filter_Mask_Config(hcan, CAN_FILTER(1) | CAN_FIFO_1 | CAN_STDID | CAN_DATA_TYPE, 0x200, 0xff0);	
 
     }
@@ -66,8 +67,8 @@ void CAN_Init(CAN_HandleTypeDef *hcan, CAN_Call_Back Callback_Function)
         CAN2_Manage_Object.CAN_Handler = hcan;
         CAN2_Manage_Object.Callback_Function = Callback_Function;
 			//不进行任何过滤
-		CAN_Filter_Mask_Config(hcan, CAN_FILTER(15) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x000, 0x000);
-		CAN_Filter_Mask_Config(hcan, CAN_FILTER(16) | CAN_FIFO_1 | CAN_STDID | CAN_DATA_TYPE, 0x000, 0x000);	
+	//	CAN_Filter_Mask_Config(hcan, CAN_FILTER(15) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x000, 0x000);
+		//CAN_Filter_Mask_Config(hcan, CAN_FILTER(16) | CAN_FIFO_1 | CAN_STDID | CAN_DATA_TYPE, 0x000, 0x000);	
 
     
     }
@@ -81,6 +82,7 @@ void CAN_Init(CAN_HandleTypeDef *hcan, CAN_Call_Back Callback_Function)
  * @param ID ID
  * @param Mask_ID 屏蔽位
  */
+ 
 void CAN_Filter_Mask_Config(CAN_HandleTypeDef *hcan, uint8_t Object_Para, uint32_t ID, uint32_t Mask_ID)
 {
     CAN_FilterTypeDef can_filter_init_structure;
@@ -128,6 +130,17 @@ void CAN_Filter_Mask_Config(CAN_HandleTypeDef *hcan, uint8_t Object_Para, uint32
     HAL_CAN_ConfigFilter(hcan, &can_filter_init_structure);
 }
 
+
+/**
+ * @brief CAN的TIM定时器中断发送回调函数
+ *
+ */
+void TIM_CAN_PeriodElapsedCallback()
+{
+    // CAN_Send_Data(&hcan1, 0x1ff, CAN1_0x1ff_Tx_Data, 8);
+    //CAN_Send_Data(&hcan1, 0x200, CAN1_0x200_Tx_Data, 8);
+}
+
 /**
  * @brief 发送数据帧
  *
@@ -152,15 +165,6 @@ void CAN_Send_Data(CAN_HandleTypeDef *hcan, uint16_t ID, uint8_t *Data, uint16_t
     HAL_CAN_AddTxMessage(hcan, &tx_header, Data, &used_mailbox);
 }
 
-/**
- * @brief CAN的TIM定时器中断发送回调函数
- *
- */
-void TIM_CAN_PeriodElapsedCallback()
-{
-    // CAN_Send_Data(&hcan1, 0x1ff, CAN1_0x1ff_Tx_Data, 8);
-    //CAN_Send_Data(&hcan1, 0x200, CAN1_0x200_Tx_Data, 8);
-}
 
 /**
  * @brief HAL库CAN接收FIFO0中断
@@ -176,13 +180,15 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			
       HAL_CAN_GetRxMessage(hcan, CAN_FILTER_FIFO0, &CAN1_Manage_Object.Rx_Buffer.Header, CAN1_Manage_Object.Rx_Buffer.Data);
 			CAN1_Manage_Object.Callback_Function(&CAN1_Manage_Object.Rx_Buffer);
- CAN_Send_Data(&hcan1,0x200,CAN1_0x200_Tx_Data,8);
+			CAN_Send_Data(&hcan1,0x200,CAN1_0x200_Tx_Data,8);
 			CAN_Send_Data(&hcan1,0x1ff,CAN1_0x1ff_Tx_Data,8);
+						CAN_Send_Data(&hcan1,0x2ff,CAN1_0x2ff_Tx_Data,8);
     }
     else if (hcan->Instance == CAN2)
     {		  
        HAL_CAN_GetRxMessage(hcan, CAN_FILTER_FIFO0, &CAN2_Manage_Object.Rx_Buffer.Header, CAN2_Manage_Object.Rx_Buffer.Data);
 		CAN2_Manage_Object.Callback_Function(&CAN2_Manage_Object.Rx_Buffer);
+		
     }
 }
 
@@ -275,6 +281,27 @@ void buffer_to_motor_state(uint8_t id,struct Struct_CAN_Rx_Buffer *Rx_Buffer)
         motor_manage_object8.torque=(int16_t)Rx_Buffer->Data[4]<<8|Rx_Buffer->Data[5];
         motor_manage_object8.temperaure=Rx_Buffer->Data[6];
 		}
+			case(9):
+		{
+			  motor_manage_object9.encoder=(uint16_t)Rx_Buffer->Data[0]<<8|Rx_Buffer->Data[1];
+        motor_manage_object9.omega=(int16_t)Rx_Buffer->Data[2]<<8|Rx_Buffer->Data[3];
+        motor_manage_object9.torque=(int16_t)Rx_Buffer->Data[4]<<8|Rx_Buffer->Data[5];
+        motor_manage_object9.temperaure=Rx_Buffer->Data[6];
+		}
+		case(10):
+		{
+			  motor_manage_objectA.encoder=(uint16_t)Rx_Buffer->Data[0]<<8|Rx_Buffer->Data[1];
+        motor_manage_objectA.omega=(int16_t)Rx_Buffer->Data[2]<<8|Rx_Buffer->Data[3];
+        motor_manage_objectA.torque=(int16_t)Rx_Buffer->Data[4]<<8|Rx_Buffer->Data[5];
+        motor_manage_objectA.temperaure=Rx_Buffer->Data[6];
+		}
+		case(11):
+		{
+			  motor_manage_objectB.encoder=(uint16_t)Rx_Buffer->Data[0]<<8|Rx_Buffer->Data[1];
+        motor_manage_objectB.omega=(int16_t)Rx_Buffer->Data[2]<<8|Rx_Buffer->Data[3];
+        motor_manage_objectB.torque=(int16_t)Rx_Buffer->Data[4]<<8|Rx_Buffer->Data[5];
+        motor_manage_objectB.temperaure=Rx_Buffer->Data[6];
+		}
 	}
 }
 
@@ -289,9 +316,7 @@ void can_fifo_callback( struct Struct_CAN_Rx_Buffer *Rx_Buffer)
         case (0x201):
         {
 					
-					buffer_to_motor_state(1,Rx_Buffer);//buffer得到的数据进行处理得到电机基础数据
-					bsp_motor_state_change(&motor_manage_object1,motor_manage_object1.motor_cotrol_way,pid_control2,motor_manage_object1.target_v);//代入pid计算
-					
+				
         }
         break;
         case (0x202):
@@ -327,6 +352,21 @@ void can_fifo_callback( struct Struct_CAN_Rx_Buffer *Rx_Buffer)
         }
         break;
         case (0x208):
+        {
+        
+        }
+        break;
+				 case (0x209):
+        {
+        
+        }
+        break;
+				 case (0x20A):
+        {
+        
+        }
+        break;
+				 case (0x20B):
         {
         
         }

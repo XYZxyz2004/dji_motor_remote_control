@@ -20,23 +20,30 @@ static void abs_limit(float *a, float ABS_MAX)
         *a = -ABS_MAX;
 }
 
-struct Struct_PID_Manage_Object pid1={0};
-struct Struct_PID_Manage_Object pid2={0};
-struct Struct_PID_Manage_Object pid3={0};
-struct Struct_PID_Manage_Object pid4={0};
-struct Struct_PID_Manage_Object pid5={0};
-struct Struct_PID_Manage_Object pid6={0};
-struct Struct_PID_Manage_Object pid7={0};
-struct Struct_PID_Manage_Object pid8={0};
-struct Struct_PID_Manage_Object pid9={0};
-struct Struct_PID_Manage_Object pid10={0};
-struct Struct_PID_Manage_Object pid11={0};
-struct Struct_PID_Manage_Object pid12={0};
-struct Struct_PID_Manage_Object pid13={0};
-struct Struct_PID_Manage_Object pid14={0};
-struct Struct_PID_Manage_Object pid15={0};
-struct Struct_PID_Manage_Object pid16={0};
 
+ struct Struct_PID_Manage_Object pid1_1={0};
+ struct Struct_PID_Manage_Object pid2_1={0};
+ struct Struct_PID_Manage_Object pid3_1={0};
+ struct Struct_PID_Manage_Object pid4_1={0};
+struct Struct_PID_Manage_Object pid5_1={0};
+struct Struct_PID_Manage_Object pid6_1={0};
+ struct Struct_PID_Manage_Object pid7_1={0};
+ struct Struct_PID_Manage_Object pid8_1={0};
+struct Struct_PID_Manage_Object pid9_1={0};
+ struct Struct_PID_Manage_Object pidA_1={0};
+ struct Struct_PID_Manage_Object pidB_1={0};
+
+struct Struct_PID_Manage_Object pid1_2={0};
+struct Struct_PID_Manage_Object pid2_2={0};
+ struct Struct_PID_Manage_Object pid3_2={0};
+ struct Struct_PID_Manage_Object pid4_2={0};
+ struct Struct_PID_Manage_Object pid5_2={0};
+ struct Struct_PID_Manage_Object pid6_2={0};
+ struct Struct_PID_Manage_Object pid7_2={0};
+ struct Struct_PID_Manage_Object pid8_2={0};
+ struct Struct_PID_Manage_Object pid9_2={0};
+ struct Struct_PID_Manage_Object pidA_2={0};
+struct Struct_PID_Manage_Object pidB_2={0};
 /**
  * @brief pid≥ı ºªØ
  * @param p÷µ

@@ -17,9 +17,9 @@ struct Struct_MOTOR_Manage_Object motor_manage_object4={0};
 struct Struct_MOTOR_Manage_Object motor_manage_object6={0};
  struct Struct_MOTOR_Manage_Object motor_manage_object7={0};
  struct Struct_MOTOR_Manage_Object motor_manage_object8={0};
-
-
- 
+ struct Struct_MOTOR_Manage_Object motor_manage_object9={0};
+ struct Struct_MOTOR_Manage_Object motor_manage_objectA={0};
+  struct Struct_MOTOR_Manage_Object motor_manage_objectB={0};
  /**
  * @brief motor初始化
  * @param 电机处理结构体
@@ -42,53 +42,71 @@ struct Struct_MOTOR_Manage_Object motor_manage_object6={0};
 	motor->motor_cotrol_way=velocity_control;
    switch (_motor_id)
    {
-     case (0x0201):
+     case (0x201):
      {
-    motor->v_pid_object=pid1;
-			 motor->l_pid_object=pid9;
+    motor->v_pid_object=pid1_1;
+			 motor->l_pid_object=pid1_2;
      }
      break;
-     case (0x0202):
+     case (0x202):
      {
-    motor->v_pid_object=pid2;
-			 motor->l_pid_object=pid10;
+    motor->v_pid_object=pid2_1;
+			 motor->l_pid_object=pid2_2;
      }
      break;
-     case (0x0203):
+     case (0x203):
      {
-    motor->v_pid_object=pid3;
-			 motor->l_pid_object=pid11;
+    motor->v_pid_object=pid3_1;
+			 motor->l_pid_object=pid3_2;
      }
      break;
-     case (0x0204):
+     case (0x204):
      {
-    motor->v_pid_object=pid4;
-			 motor->l_pid_object=pid12;
+    motor->v_pid_object=pid4_1;
+			 motor->l_pid_object=pid4_2;
 			 
      }
      break;
-     case (0x0205):
+     case (0x205):
      {
-    motor->v_pid_object=pid5;
-			 motor->l_pid_object=pid13;
+    motor->v_pid_object=pid5_1;
+			 motor->l_pid_object=pid5_2;
      }
      break;
-     case (0x0206):
+     case (0x206):
      {
-    motor->v_pid_object=pid6;
-			 motor->l_pid_object=pid14;
+    motor->v_pid_object=pid6_1;
+			 motor->l_pid_object=pid6_2;
      }
      break;
-     case (0x0207):
+     case (0x207):
      {
-    motor->v_pid_object=pid7;
-			 motor->l_pid_object=pid15;
+    motor->v_pid_object=pid7_1;
+			 motor->l_pid_object=pid7_2;
      }
      break;
-     case (0x0208):
+     case (0x208):
      {
-    motor->v_pid_object=pid8;
-			 motor->l_pid_object=pid16;
+    motor->v_pid_object=pid8_1;
+			 motor->l_pid_object=pid8_2;
+     }
+     break;
+		  case (0x209):
+     {
+    motor->v_pid_object=pid9_1;
+			 motor->l_pid_object=pid9_2;
+     }
+     break;
+		  case (0x20A):
+     {
+    motor->v_pid_object=pidA_1;
+			 motor->l_pid_object=pidA_2;
+     }
+     break;
+		  case (0x20B):
+     {
+    motor->v_pid_object=pidB_1;
+			 motor->l_pid_object=pidB_2;
      }
      break;
      default:
@@ -97,7 +115,7 @@ struct Struct_MOTOR_Manage_Object motor_manage_object6={0};
      }
      break;
    }
-};
+}
 
 float theta_to_quanshu(uint16_t theta)
 {
@@ -185,6 +203,27 @@ void bsp_motor_state_change(struct Struct_MOTOR_Manage_Object *motor,enum veloci
 				CAN1_0x1ff_Tx_Data[6]=((uint16_t)motor->i_send)>>8;
         CAN1_0x1ff_Tx_Data[7]=((uint16_t)motor->i_send)&0xff;
 				}
+				case(0x209):
+				{
+					 motor->i_send=(int16_t)(CAN1_0x2ff_Tx_Data[0]<<8|CAN1_0x2ff_Tx_Data[1]);
+       motor->i_send+=(int16_t)BSP_PID_Model1_Update(&motor->v_pid_object,(float)motor->omega,target);
+				CAN1_0x2ff_Tx_Data[0]=((uint16_t)motor->i_send)>>8;
+        CAN1_0x2ff_Tx_Data[1]=((uint16_t)motor->i_send)&0xff;
+				}
+					case(0x20A):
+				{
+					 motor->i_send=(int16_t)(CAN1_0x2ff_Tx_Data[2]<<8|CAN1_0x2ff_Tx_Data[3]);
+       motor->i_send+=(int16_t)BSP_PID_Model1_Update(&motor->v_pid_object,(float)motor->omega,target);
+				CAN1_0x2ff_Tx_Data[2]=((uint16_t)motor->i_send)>>8;
+        CAN1_0x2ff_Tx_Data[3]=((uint16_t)motor->i_send)&0xff;
+				}
+						case(0x20B):
+				{
+					 motor->i_send=(int16_t)(CAN1_0x2ff_Tx_Data[4]<<8|CAN1_0x2ff_Tx_Data[5]);
+       motor->i_send+=(int16_t)BSP_PID_Model1_Update(&motor->v_pid_object,(float)motor->omega,target);
+				CAN1_0x2ff_Tx_Data[4]=((uint16_t)motor->i_send)>>8;
+        CAN1_0x2ff_Tx_Data[5]=((uint16_t)motor->i_send)&0xff;
+				}
 		}
 				
 				
@@ -249,6 +288,27 @@ void bsp_motor_state_change(struct Struct_MOTOR_Manage_Object *motor,enum veloci
        motor->i_send=(int16_t)BSP_PID_Model2_Update(&motor->v_pid_object,(float)motor->omega,target);
 				CAN1_0x1ff_Tx_Data[6]=((uint16_t)motor->i_send)>>8;
         CAN1_0x1ff_Tx_Data[7]=((uint16_t)motor->i_send)&0xff;
+				}
+					case(0x209):
+				{
+					
+       motor->i_send=(int16_t)BSP_PID_Model2_Update(&motor->v_pid_object,(float)motor->omega,target);
+				CAN1_0x2ff_Tx_Data[0]=((uint16_t)motor->i_send)>>8;
+        CAN1_0x2ff_Tx_Data[1]=((uint16_t)motor->i_send)&0xff;
+				}
+				case(0x20A):
+				{
+					
+       motor->i_send=(int16_t)BSP_PID_Model2_Update(&motor->v_pid_object,(float)motor->omega,target);
+				CAN1_0x2ff_Tx_Data[2]=((uint16_t)motor->i_send)>>8;
+        CAN1_0x2ff_Tx_Data[3]=((uint16_t)motor->i_send)&0xff;
+				}
+				case(0x20B):
+				{
+					
+       motor->i_send=(int16_t)BSP_PID_Model2_Update(&motor->v_pid_object,(float)motor->omega,target);
+				CAN1_0x2ff_Tx_Data[4]=((uint16_t)motor->i_send)>>8;
+        CAN1_0x2ff_Tx_Data[5]=((uint16_t)motor->i_send)&0xff;
 				}
 		}
 	}
@@ -384,9 +444,49 @@ void bsp_motor_state_change(struct Struct_MOTOR_Manage_Object *motor,enum veloci
 		CAN1_0x1ff_Tx_Data[6]=((uint16_t)motor->i_send)>>8;
     CAN1_0x1ff_Tx_Data[7]=((uint16_t)motor->i_send)&0xff;
 			}
+			case(0x209):
+			{
+				if(model2==pid_control2)
+		{
+		motor->i_send=(int16_t)BSP_PID_Model2_Update(&motor->v_pid_object,(float)motor->omega,(float)motor->target_v);
+		}
+		if(model2==pid_control1)
+		{
+			motor->i_send=(int16_t)(CAN1_0x2ff_Tx_Data[0]<<8|CAN1_0x2ff_Tx_Data[1]);
+       motor->i_send+=(int16_t)BSP_PID_Model1_Update(&motor->v_pid_object,(float)motor->omega,(float)motor->target_v);
+		}
+		CAN1_0x2ff_Tx_Data[0]=((uint16_t)motor->i_send)>>8;
+    CAN1_0x2ff_Tx_Data[1]=((uint16_t)motor->i_send)&0xff;
+			}
+			case(0x20A):
+			{
+				if(model2==pid_control2)
+		{
+		motor->i_send=(int16_t)BSP_PID_Model2_Update(&motor->v_pid_object,(float)motor->omega,(float)motor->target_v);
+		}
+		if(model2==pid_control1)
+		{
+			motor->i_send=(int16_t)(CAN1_0x2ff_Tx_Data[2]<<8|CAN1_0x2ff_Tx_Data[3]);
+       motor->i_send+=(int16_t)BSP_PID_Model1_Update(&motor->v_pid_object,(float)motor->omega,(float)motor->target_v);
+		}
+		CAN1_0x2ff_Tx_Data[2]=((uint16_t)motor->i_send)>>8;
+    CAN1_0x2ff_Tx_Data[3]=((uint16_t)motor->i_send)&0xff;
+			}
+			case(0x20B):
+			{
+				if(model2==pid_control2)
+		{
+		motor->i_send=(int16_t)BSP_PID_Model2_Update(&motor->v_pid_object,(float)motor->omega,(float)motor->target_v);
+		}
+		if(model2==pid_control1)
+		{
+			motor->i_send=(int16_t)(CAN1_0x2ff_Tx_Data[4]<<8|CAN1_0x2ff_Tx_Data[5]);
+       motor->i_send+=(int16_t)BSP_PID_Model1_Update(&motor->v_pid_object,(float)motor->omega,(float)motor->target_v);
+		}
+		CAN1_0x2ff_Tx_Data[4]=((uint16_t)motor->i_send)>>8;
+    CAN1_0x2ff_Tx_Data[5]=((uint16_t)motor->i_send)&0xff;
+			}
 			
 		}
-		
-	
 	}
 };

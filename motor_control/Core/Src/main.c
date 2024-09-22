@@ -109,25 +109,28 @@ int main(void)
     local_rc_ctrl = get_remote_control_point();
  // CAN_Init(&hcan2,  can_fifo_callback);
 
-  bsp_motor_init(&motor_manage_object1,0x0201);
-  bsp_motor_init(&motor_manage_object2,0x0202);
-  bsp_motor_init(&motor_manage_object3,0x0203);
-  bsp_motor_init(&motor_manage_object4,0x0204);
-  bsp_motor_init(&motor_manage_object5,0x0205);
-  bsp_motor_init(&motor_manage_object6,0x0206);
-  bsp_motor_init(&motor_manage_object7,0x0207);
-  bsp_motor_init(&motor_manage_object8,0x0208);
+  bsp_motor_init(&motor_manage_object1,0x201);
+  bsp_motor_init(&motor_manage_object2,0x202);
+  bsp_motor_init(&motor_manage_object3,0x203);
+  bsp_motor_init(&motor_manage_object4,0x204);
+  bsp_motor_init(&motor_manage_object5,0x205);
+  bsp_motor_init(&motor_manage_object6,0x206);
+  bsp_motor_init(&motor_manage_object7,0x207);
+  bsp_motor_init(&motor_manage_object8,0x208);
+	bsp_motor_init(&motor_manage_object9,0x209);
+	bsp_motor_init(&motor_manage_objectA,0x20A);
+	bsp_motor_init(&motor_manage_objectB,0x20B);
 //2006速度环 1.1
 //BSP_PID_Init(&motor_manage_object1.v_pid_object,4.25,0.05,0.025,1000,16000,20);
 //2006位置环	 1.1
 //BSP_PID_Init(&motor_manage_object1.l_pid_object,0.5,0,0,1000,16000,20);
 
 //2006速度环 1.2
-BSP_PID_Init(&motor_manage_object1.v_pid_object,7.25,0.3,0.5,10000,16000,20);
+//BSP_PID_Init(&motor_manage_object1.v_pid_object,7.25,0.3,0.5,10000,16000,20);
 //2006位置环	 1.2
-BSP_PID_Init(&motor_manage_object1.l_pid_object,5,0.01,50,10000,16000,20);
-motor_manage_object1.motor_cotrol_way=velocity_control;
-motor_manage_object1.target_v=0.0f;	
+//BSP_PID_Init(&motor_manage_object1.l_pid_object,5,0.01,50,10000,16000,20);
+//motor_manage_object1.motor_cotrol_way=velocity_control;
+//motor_manage_object1.target_v=0.0f;	
 		
 		
 //3508速度环

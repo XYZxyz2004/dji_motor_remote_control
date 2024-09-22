@@ -77,7 +77,7 @@ const RC_ctrl_t *get_remote_control_point(void)
 }
 
 
-//串口中断
+//串口空闲中断
 void USART3_IRQHandler(void)
 {
     if(huart3.Instance->SR & UART_FLAG_RXNE)//接收到数据

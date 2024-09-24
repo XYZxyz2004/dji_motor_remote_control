@@ -12,7 +12,6 @@
 #include "bsp_can.h"
 
 #include "usart.h"
-#include "bsp_pid.h"
 #include "bsp_motor.h"
 /* Private macros ------------------------------------------------------------*/
 
@@ -24,11 +23,11 @@ struct Struct_CAN_Manage_Object CAN1_Manage_Object = {0};
 struct Struct_CAN_Manage_Object CAN2_Manage_Object = {0};
 
 // CAN通信发送缓冲区
-//控制两个摩擦轮、1个云台偏航，1个拨盘2006电机
+//控制两个摩擦轮、1个拨盘2006电机
 uint8_t CAN1_0x1ff_Tx_Data[8]= {0x00, 0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 //控制底盘四个3508电机
 uint8_t  CAN1_0x200_Tx_Data[8] = {0x00, 0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-//控制云台俯仰6020电机
+//控制云台俯仰 偏航6020电机 
 uint8_t  CAN1_0x2ff_Tx_Data[8] = {0x00, 0x00,0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 
@@ -56,11 +55,11 @@ void CAN_Init(CAN_HandleTypeDef *hcan, CAN_Call_Back Callback_Function)
 			
 			//对ID为0x201的ID进行过滤
 		//CAN_Filter_Mask_Config(hcan, CAN_FILTER(0) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x201, 0xfff);
-	//	CAN_Filter_Mask_Config(hcan, CAN_FILTER(1) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x000, 0x000);
 		//对ID处于0x200-0x20f的ID进行过滤
-		CAN_Filter_Mask_Config(hcan, CAN_FILTER(0) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x000, 0x000);
-		//CAN_Filter_Mask_Config(hcan, CAN_FILTER(1) | CAN_FIFO_1 | CAN_STDID | CAN_DATA_TYPE, 0x200, 0xff0);	
-
+		CAN_Filter_Mask_Config(hcan, CAN_FILTER(0) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x201, 0xfff);	
+			CAN_Filter_Mask_Config(hcan, CAN_FILTER(1) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x203, 0xfff);	
+CAN_Filter_Mask_Config(hcan, CAN_FILTER(2) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x204, 0xfff);	
+			CAN_Filter_Mask_Config(hcan, CAN_FILTER(3) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x209, 0xfff);	
     }
     else if (hcan->Instance == CAN2)
     {
@@ -143,7 +142,6 @@ void TIM_CAN_PeriodElapsedCallback()
 
 /**
  * @brief 发送数据帧
- *
  * @param hcan CAN编号
  * @param ID ID
  * @param Data 被发送的数据指针
@@ -182,7 +180,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			CAN1_Manage_Object.Callback_Function(&CAN1_Manage_Object.Rx_Buffer);
 			CAN_Send_Data(&hcan1,0x200,CAN1_0x200_Tx_Data,8);
 			CAN_Send_Data(&hcan1,0x1ff,CAN1_0x1ff_Tx_Data,8);
-						CAN_Send_Data(&hcan1,0x2ff,CAN1_0x2ff_Tx_Data,8);
+			CAN_Send_Data(&hcan1,0x2ff,CAN1_0x2ff_Tx_Data,8);
     }
     else if (hcan->Instance == CAN2)
     {		  
@@ -315,7 +313,8 @@ void can_fifo_callback( struct Struct_CAN_Rx_Buffer *Rx_Buffer)
     {
         case (0x201):
         {
-					
+					buffer_to_motor_state(1,Rx_Buffer);//buffer得到的数据进行处理得到电机基础数据
+					bsp_motor_state_change(&motor_manage_object1,motor_manage_object1.motor_cotrol_way,pid_control2,motor_manage_object1.target_v);//代入pid计算
 				
         }
         break;
@@ -339,16 +338,20 @@ void can_fifo_callback( struct Struct_CAN_Rx_Buffer *Rx_Buffer)
         break;
         case (0x205):
         {  
+					buffer_to_motor_state(5,Rx_Buffer);//buffer得到的数据进行处理得到电机基础数据
+					bsp_motor_state_change(&motor_manage_object5,motor_manage_object5.motor_cotrol_way,pid_control2,motor_manage_object5.target_v);//代入pid计算
         }
         break;
         case (0x206):
         {
-        
+        	buffer_to_motor_state(6,Rx_Buffer);//buffer得到的数据进行处理得到电机基础数据
+					bsp_motor_state_change(&motor_manage_object6,motor_manage_object6.motor_cotrol_way,pid_control2,motor_manage_object6.target_v);//代入pid计算
         }
         break;
         case (0x207):
         {
-        
+        buffer_to_motor_state(7,Rx_Buffer);//buffer得到的数据进行处理得到电机基础数据
+					bsp_motor_state_change(&motor_manage_object7,motor_manage_object7.motor_cotrol_way,pid_control2,motor_manage_object7.target_location);//代入pid计算
         }
         break;
         case (0x208):
@@ -358,7 +361,8 @@ void can_fifo_callback( struct Struct_CAN_Rx_Buffer *Rx_Buffer)
         break;
 				 case (0x209):
         {
-        
+        buffer_to_motor_state(9,Rx_Buffer);//buffer得到的数据进行处理得到电机基础数据
+				bsp_motor_state_change(&motor_manage_object9,motor_manage_object9.motor_cotrol_way,pid_control2,motor_manage_object9.target_location);//代入pid计算
         }
         break;
 				 case (0x20A):

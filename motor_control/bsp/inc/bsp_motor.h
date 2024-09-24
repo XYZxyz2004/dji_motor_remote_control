@@ -65,12 +65,12 @@ extern struct Struct_MOTOR_Manage_Object motor_manage_object1;
 extern struct Struct_MOTOR_Manage_Object motor_manage_object2;
 extern struct Struct_MOTOR_Manage_Object motor_manage_object3;
 extern struct Struct_MOTOR_Manage_Object motor_manage_object4;
-
+//默认5，6对应左右摩擦轮3508电机  7对应拨弹2006电机，不要更改！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 extern struct Struct_MOTOR_Manage_Object motor_manage_object5;
 extern struct Struct_MOTOR_Manage_Object motor_manage_object6;
 extern struct Struct_MOTOR_Manage_Object motor_manage_object7;
 extern struct Struct_MOTOR_Manage_Object motor_manage_object8;
-
+//默认9，A对应 yaw pitch 6020电机，不要更改！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 extern struct Struct_MOTOR_Manage_Object motor_manage_object9;
 extern struct Struct_MOTOR_Manage_Object motor_manage_objectA;
 extern struct Struct_MOTOR_Manage_Object motor_manage_objectB;

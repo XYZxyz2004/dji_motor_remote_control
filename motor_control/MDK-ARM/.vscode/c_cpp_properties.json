@@ -3,15 +3,17 @@
         {
             "name": "motor_control",
             "includePath": [
-                "f:\\HAL\\motor_control\\motor_control\\Core\\Inc",
-                "f:\\HAL\\motor_control\\motor_control\\Drivers\\STM32F4xx_HAL_Driver\\Inc",
-                "f:\\HAL\\motor_control\\motor_control\\Drivers\\STM32F4xx_HAL_Driver\\Inc\\Legacy",
-                "f:\\HAL\\motor_control\\motor_control\\Drivers\\CMSIS\\Device\\ST\\STM32F4xx\\Include",
-                "f:\\HAL\\motor_control\\motor_control\\Drivers\\CMSIS\\Include",
+                "f:\\RM\\案例\\remote_motor_control\\motor_control\\Core\\Inc",
+                "f:\\RM\\案例\\remote_motor_control\\motor_control\\Drivers\\STM32F4xx_HAL_Driver\\Inc",
+                "f:\\RM\\案例\\remote_motor_control\\motor_control\\Drivers\\STM32F4xx_HAL_Driver\\Inc\\Legacy",
+                "f:\\RM\\案例\\remote_motor_control\\motor_control\\Drivers\\CMSIS\\Device\\ST\\STM32F4xx\\Include",
+                "f:\\RM\\案例\\remote_motor_control\\motor_control\\Drivers\\CMSIS\\Include",
+                "f:\\RM\\案例\\remote_motor_control\\motor_control\\bsp\\inc",
                 "F:\\KEIL5\\ARM\\ARMCC\\include",
-                "f:\\HAL\\motor_control\\motor_control\\MDK-ARM",
-                "f:\\HAL\\motor_control\\motor_control\\Core\\Src",
-                "f:\\HAL\\motor_control\\motor_control\\Drivers\\STM32F4xx_HAL_Driver\\Src"
+                "f:\\RM\\案例\\remote_motor_control\\motor_control\\MDK-ARM",
+                "f:\\RM\\案例\\remote_motor_control\\motor_control\\Core\\Src",
+                "f:\\RM\\案例\\remote_motor_control\\motor_control\\Drivers\\STM32F4xx_HAL_Driver\\Src",
+                "f:\\RM\\案例\\remote_motor_control\\motor_control\\bsp\\src"
             ],
             "defines": [
                 "USE_HAL_DRIVER",

@@ -100,5 +100,5 @@ extern void remote_control_init(void);
   * @retval         Ò£¿ØÆ÷Êý¾ÝÖ¸Õë
   */
 extern const RC_ctrl_t *get_remote_control_point(void);
-
+extern const RC_ctrl_t *local_rc_ctrl;
 #endif

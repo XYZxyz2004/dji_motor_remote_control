@@ -21,7 +21,7 @@
 
 #include "main.h"
 
-
+const RC_ctrl_t *local_rc_ctrl;
 extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 

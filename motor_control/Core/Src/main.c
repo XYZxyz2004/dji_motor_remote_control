@@ -34,6 +34,8 @@
 #include <stdarg.h>
 #include "string.h"
 #include "remote_control.h"
+#include "task_init.h"
+#include "shoot.h"
 
 /* USER CODE END Includes */
 
@@ -61,7 +63,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-const RC_ctrl_t *local_rc_ctrl;
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -73,7 +75,7 @@ const RC_ctrl_t *local_rc_ctrl;
   * @brief  The application entry point.
   * @retval int
   */
-int main(void)
+int main()
 {
 
   /* USER CODE BEGIN 1 */
@@ -104,46 +106,10 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-	 remote_control_init();
-    usart1_tx_dma_init();
-    local_rc_ctrl = get_remote_control_point();
- // CAN_Init(&hcan2,  can_fifo_callback);
-
-  bsp_motor_init(&motor_manage_object1,0x201);
-  bsp_motor_init(&motor_manage_object2,0x202);
-  bsp_motor_init(&motor_manage_object3,0x203);
-  bsp_motor_init(&motor_manage_object4,0x204);
-  bsp_motor_init(&motor_manage_object5,0x205);
-  bsp_motor_init(&motor_manage_object6,0x206);
-  bsp_motor_init(&motor_manage_object7,0x207);
-  bsp_motor_init(&motor_manage_object8,0x208);
-	bsp_motor_init(&motor_manage_object9,0x209);
-	bsp_motor_init(&motor_manage_objectA,0x20A);
-	bsp_motor_init(&motor_manage_objectB,0x20B);
-//2006速度环 1.1
-//BSP_PID_Init(&motor_manage_object1.v_pid_object,4.25,0.05,0.025,1000,16000,20);
-//2006位置环	 1.1
-//BSP_PID_Init(&motor_manage_object1.l_pid_object,0.5,0,0,1000,16000,20);
-
-//2006速度环 1.2
-//BSP_PID_Init(&motor_manage_object1.v_pid_object,7.25,0.3,0.5,10000,16000,20);
-//2006位置环	 1.2
-//BSP_PID_Init(&motor_manage_object1.l_pid_object,5,0.01,50,10000,16000,20);
-//motor_manage_object1.motor_cotrol_way=velocity_control;
-//motor_manage_object1.target_v=0.0f;	
-		
-		
-//3508速度环
-BSP_PID_Init(&motor_manage_object4.v_pid_object,5,0.1,0.3,10000,16000,20);
-motor_manage_object4.motor_cotrol_way=velocity_control;
-
-	BSP_PID_Init(&motor_manage_object3.v_pid_object,5,0.1,0.3,10000,16000,20);
-motor_manage_object3.motor_cotrol_way=velocity_control;
-	motor_manage_object4.target_v=0.0f;
-		motor_manage_object3.target_v=-0.0f;
-	
-	CAN_Init(&hcan1, can_fifo_callback);
-	
+task_start_init();
+local_rc_ctrl = get_remote_control_point();
+CAN_Init(&hcan1, can_fifo_callback);
+shoot_init(&shoot_control);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -151,22 +117,12 @@ motor_manage_object3.motor_cotrol_way=velocity_control;
   while (1)
   {
     /* USER CODE END WHILE */
-if(local_rc_ctrl->rc.s[0]==1)
-{
-	motor_manage_object4.target_v=5500.0f;
-		motor_manage_object3.target_v=-5500.0f;
-}
-if(local_rc_ctrl->rc.s[0]==2)
-{
-	motor_manage_object4.target_v=3000.0f;
-		motor_manage_object3.target_v=-3000.0f;
-}
-if(local_rc_ctrl->rc.s[0]==3)
-{
-	motor_manage_object4.target_v=0.0f;
-		motor_manage_object3.target_v=-0.0f;
-}
+
+
+
+
     /* USER CODE BEGIN 3 */
+		shoot_task(&shoot_control);
 		
   }
   /* USER CODE END 3 */

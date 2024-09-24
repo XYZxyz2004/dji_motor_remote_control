@@ -31,6 +31,8 @@
 "motor_control\bsp_usart_1.o"
 "motor_control\bsp_rc.o"
 "motor_control\remote_control.o"
+"motor_control\task_init.o"
+"motor_control\shoot.o"
 --strict --scatter "motor_control\motor_control.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -44,3 +44,5 @@ motor_control\main.o: F:\KEIL5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdarg.h
 motor_control\main.o: F:\KEIL5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 motor_control\main.o: ../bsp/inc/remote_control.h
 motor_control\main.o: ../bsp/inc/bsp_rc.h
+motor_control\main.o: ..\task\inc\task_init.h
+motor_control\main.o: ..\task\inc\shoot.h

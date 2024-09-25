@@ -1,4 +1,6 @@
 motor_control\task_init.o: ..\task\src\task_init.c
+motor_control\task_init.o: ..\task\inc\task_init.h
+motor_control\task_init.o: ../Core/Inc/can.h
 motor_control\task_init.o: ../Core/Inc/main.h
 motor_control\task_init.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 motor_control\task_init.o: ../Core/Inc/stm32f4xx_hal_conf.h
@@ -30,8 +32,6 @@ motor_control\task_init.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_fla
 motor_control\task_init.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 motor_control\task_init.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 motor_control\task_init.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-motor_control\task_init.o: ..\task\inc\task_init.h
-motor_control\task_init.o: ../Core/Inc/can.h
 motor_control\task_init.o: ../Core/Inc/dma.h
 motor_control\task_init.o: ../Core/Inc/usart.h
 motor_control\task_init.o: ../Core/Inc/gpio.h
@@ -45,4 +45,3 @@ motor_control\task_init.o: F:\KEIL5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdar
 motor_control\task_init.o: F:\KEIL5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 motor_control\task_init.o: ../bsp/inc/remote_control.h
 motor_control\task_init.o: ../bsp/inc/bsp_rc.h
-motor_control\task_init.o: ..\task\inc\shoot.h

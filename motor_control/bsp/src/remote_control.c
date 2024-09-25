@@ -21,7 +21,7 @@
 
 #include "main.h"
 
-const RC_ctrl_t *local_rc_ctrl;
+
 extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 
@@ -77,11 +77,12 @@ const RC_ctrl_t *get_remote_control_point(void)
 }
 
 
-//串口空闲中断
+//串口中断
 void USART3_IRQHandler(void)
 {
     if(huart3.Instance->SR & UART_FLAG_RXNE)//接收到数据
     {
+      //用于清除 UART 设备的噪声错误（Parity Error）标志。
         __HAL_UART_CLEAR_PEFLAG(&huart3);
     }
     else if(USART3->SR & UART_FLAG_IDLE)

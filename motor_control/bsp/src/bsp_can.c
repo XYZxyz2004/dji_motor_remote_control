@@ -59,6 +59,7 @@ void CAN_Init(CAN_HandleTypeDef *hcan, CAN_Call_Back Callback_Function)
 		CAN_Filter_Mask_Config(hcan, CAN_FILTER(0) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x201, 0xfff);	
 			CAN_Filter_Mask_Config(hcan, CAN_FILTER(1) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x203, 0xfff);	
 CAN_Filter_Mask_Config(hcan, CAN_FILTER(2) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x204, 0xfff);	
+			CAN_Filter_Mask_Config(hcan, CAN_FILTER(4) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x207, 0xfff);	
 			CAN_Filter_Mask_Config(hcan, CAN_FILTER(3) | CAN_FIFO_0 | CAN_STDID | CAN_DATA_TYPE, 0x209, 0xfff);	
     }
     else if (hcan->Instance == CAN2)
@@ -313,8 +314,6 @@ void can_fifo_callback( struct Struct_CAN_Rx_Buffer *Rx_Buffer)
     {
         case (0x201):
         {
-					buffer_to_motor_state(1,Rx_Buffer);//buffer得到的数据进行处理得到电机基础数据
-					bsp_motor_state_change(&motor_manage_object1,motor_manage_object1.motor_cotrol_way,pid_control2,motor_manage_object1.target_v);//代入pid计算
 				
         }
         break;
@@ -324,16 +323,11 @@ void can_fifo_callback( struct Struct_CAN_Rx_Buffer *Rx_Buffer)
         break;
         case (0x203):
         {
-					buffer_to_motor_state(3,Rx_Buffer);//buffer得到的数据进行处理得到电机基础数据
-					bsp_motor_state_change(&motor_manage_object3,motor_manage_object3.motor_cotrol_way,pid_control2,motor_manage_object3.target_v);//代入pid计算
-        }
+				
         break;
 
         case (0x204):
         {
-						buffer_to_motor_state(4,Rx_Buffer);//buffer得到的数据进行处理得到电机基础数据
-					bsp_motor_state_change(&motor_manage_object4,motor_manage_object4.motor_cotrol_way,pid_control2,motor_manage_object4.target_v);//代入pid计算
-					
         }
         break;
         case (0x205):
@@ -361,8 +355,7 @@ void can_fifo_callback( struct Struct_CAN_Rx_Buffer *Rx_Buffer)
         break;
 				 case (0x209):
         {
-        buffer_to_motor_state(9,Rx_Buffer);//buffer得到的数据进行处理得到电机基础数据
-				bsp_motor_state_change(&motor_manage_object9,motor_manage_object9.motor_cotrol_way,pid_control2,motor_manage_object9.target_location);//代入pid计算
+       
         }
         break;
 				 case (0x20A):
@@ -376,4 +369,5 @@ void can_fifo_callback( struct Struct_CAN_Rx_Buffer *Rx_Buffer)
         }
         break;
     }
+}
 }

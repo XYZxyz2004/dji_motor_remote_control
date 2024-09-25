@@ -32,5 +32,5 @@ motor_control\bsp_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_e
 motor_control\bsp_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 motor_control\bsp_can.o: ../Core/Inc/usart.h
 motor_control\bsp_can.o: ../Core/Inc/main.h
-motor_control\bsp_can.o: ../bsp/inc/bsp_pid.h
 motor_control\bsp_can.o: ../bsp/inc/bsp_motor.h
+motor_control\bsp_can.o: ../bsp/inc/bsp_pid.h

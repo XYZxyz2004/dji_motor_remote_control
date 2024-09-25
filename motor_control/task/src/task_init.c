@@ -14,6 +14,7 @@ void task_start_init()
 	 
 	 //串口发送绘图启动
     usart1_tx_dma_init();
+	 
 //初始化各电机
   bsp_motor_init(&motor_manage_object1,0x201);
   bsp_motor_init(&motor_manage_object2,0x202);

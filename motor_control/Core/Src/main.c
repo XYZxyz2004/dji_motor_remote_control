@@ -41,7 +41,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+const RC_ctrl_t *local_rc_ctrl;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -107,9 +107,11 @@ int main()
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 task_start_init();
+	 
 local_rc_ctrl = get_remote_control_point();
 CAN_Init(&hcan1, can_fifo_callback);
 shoot_init(&shoot_control);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

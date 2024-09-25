@@ -1,4 +1,6 @@
 motor_control\shoot.o: ..\task\src\shoot.c
+motor_control\shoot.o: ..\task\inc\shoot.h
+motor_control\shoot.o: ../Core/Inc/can.h
 motor_control\shoot.o: ../Core/Inc/main.h
 motor_control\shoot.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 motor_control\shoot.o: ../Core/Inc/stm32f4xx_hal_conf.h
@@ -30,8 +32,6 @@ motor_control\shoot.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_r
 motor_control\shoot.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 motor_control\shoot.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 motor_control\shoot.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-motor_control\shoot.o: ..\task\inc\shoot.h
-motor_control\shoot.o: ../Core/Inc/can.h
 motor_control\shoot.o: ../Core/Inc/dma.h
 motor_control\shoot.o: ../Core/Inc/usart.h
 motor_control\shoot.o: ../Core/Inc/gpio.h

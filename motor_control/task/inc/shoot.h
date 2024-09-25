@@ -14,6 +14,7 @@
 #include "usart.h"
 #include "gpio.h"
 
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "bsp_can.h"
@@ -28,9 +29,9 @@
 
 struct Struct_SHOOT_Manage_Object
 {
-	struct Struct_MOTOR_Manage_Object pull_bullets_motor ;
-	struct Struct_MOTOR_Manage_Object fric_wheel_l_motor ;
-	struct Struct_MOTOR_Manage_Object fric_wheel_r_motor ;
+	struct Struct_MOTOR_Manage_Object *pull_bullets_motor ;
+	struct Struct_MOTOR_Manage_Object *fric_wheel_l_motor ;
+	struct Struct_MOTOR_Manage_Object *fric_wheel_r_motor ;
 	uint8_t pull_bullets_state;//记录上一次开关的状态
 	uint8_t fric_flag;//记录摩擦轮是否有速度
 };
@@ -39,5 +40,5 @@ struct Struct_SHOOT_Manage_Object
 extern struct Struct_SHOOT_Manage_Object shoot_control;
 extern void shoot_init(struct Struct_SHOOT_Manage_Object *shoot);
 extern void shoot_task(struct Struct_SHOOT_Manage_Object *shoot);
-
+extern const RC_ctrl_t *local_rc_ctrl;
 #endif

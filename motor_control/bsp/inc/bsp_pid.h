@@ -52,30 +52,6 @@ struct Struct_PID_Manage_Object
 
 };
 
-extern struct Struct_PID_Manage_Object pid1_1;
-extern struct Struct_PID_Manage_Object pid2_1;
-extern struct Struct_PID_Manage_Object pid3_1;
-extern struct Struct_PID_Manage_Object pid4_1;
-extern struct Struct_PID_Manage_Object pid5_1;
-extern struct Struct_PID_Manage_Object pid6_1;
-extern struct Struct_PID_Manage_Object pid7_1;
-extern struct Struct_PID_Manage_Object pid8_1;
-extern struct Struct_PID_Manage_Object pid9_1;
-extern struct Struct_PID_Manage_Object pidA_1;
-extern struct Struct_PID_Manage_Object pidB_1;
-
-extern struct Struct_PID_Manage_Object pid1_2;
-extern struct Struct_PID_Manage_Object pid2_2;
-extern struct Struct_PID_Manage_Object pid3_2;
-extern struct Struct_PID_Manage_Object pid4_2;
-extern struct Struct_PID_Manage_Object pid5_2;
-extern struct Struct_PID_Manage_Object pid6_2;
-extern struct Struct_PID_Manage_Object pid7_2;
-extern struct Struct_PID_Manage_Object pid8_2;
-extern struct Struct_PID_Manage_Object pid9_2;
-extern struct Struct_PID_Manage_Object pidA_2;
-extern struct Struct_PID_Manage_Object pidB_2;
-
 /* Exported variables --------------------------------------------------------*/
 extern void BSP_PID_Init(struct Struct_PID_Manage_Object *pid,float _kp,float _ki,float _kd,float _integral_limit,float _output_limit,float _deadzone);
 extern float BSP_PID_Model1_Update(struct Struct_PID_Manage_Object *pid,float _now_point,float _set_point);
